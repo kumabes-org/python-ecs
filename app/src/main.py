@@ -3,7 +3,6 @@ import os
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-
 app = FastAPI(
     title="Hello World Microservice",
     version="1.0.0"

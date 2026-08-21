@@ -8,3 +8,5 @@ source .venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
+## Configurar
+- secrets.ROLE_TO_ASSUME

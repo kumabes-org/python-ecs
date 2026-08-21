@@ -9,7 +9,7 @@ jobs:
     uses: kumabes-org/ci-cd-workflows/.github/workflows/entrypoint-python.yaml@v1
     with:
       target-platform: "ecs" # Alterne para 'lambda' ou 'glue' conforme o projeto
-      app-name: "claim-processing-service"
+      app-name: "python-ecs"
       environment: "prod"
       cluster-name: "ecs-app-cluster"
     secrets: inherit

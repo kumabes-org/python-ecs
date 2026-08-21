@@ -1,0 +1,15 @@
+name: Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  pipeline:
+    uses: kumabes-org/ci-cd-workflows/.github/workflows/entrypoint-python.yaml@v1
+    with:
+      target-platform: "ecs" # Alterne para 'lambda' ou 'glue' conforme o projeto
+      app-name: "claim-processing-service"
+      environment: "prod"
+    secrets:
+      aws-role-arn: ${{ secrets.AWS_ROLE_ARN }}

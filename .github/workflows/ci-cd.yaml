@@ -11,5 +11,4 @@ jobs:
       target-platform: "ecs" # Alterne para 'lambda' ou 'glue' conforme o projeto
       app-name: "claim-processing-service"
       environment: "prod"
-    secrets:
-      aws-role-arn: ${{ secrets.AWS_ROLE_ARN }}
+    secrets: inherit

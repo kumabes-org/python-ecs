@@ -1,6 +1,8 @@
+import os
+
 from fastapi import FastAPI
 from pydantic import BaseModel
-import os
+
 
 app = FastAPI(
     title="Hello World Microservice",

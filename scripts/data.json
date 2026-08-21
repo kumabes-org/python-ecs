@@ -12,7 +12,7 @@
                   "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
               },
               "StringLike": {
-                  "token.actions.githubusercontent.com:sub": "repo:kumabes-org/python-ecs:*"
+                  "token.actions.githubusercontent.com:sub": "repo:kumabes-org@111641209/python-ecs@1341192133:*"
               }
           }
       }

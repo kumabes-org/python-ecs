@@ -11,4 +11,5 @@ jobs:
       target-platform: "ecs" # Alterne para 'lambda' ou 'glue' conforme o projeto
       app-name: "claim-processing-service"
       environment: "prod"
+      cluster-name: "ecs-app-cluster"
     secrets: inherit

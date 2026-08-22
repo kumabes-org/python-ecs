@@ -86,3 +86,14 @@ aws iam simulate-principal-policy \
     --action-names iam:PassRole \
     --resource-arns ${ECS_EXEC_ROLE_ARN} \
     --context-entries ContextKeyName=iam:PassedToService,ContextKeyType=string,ContextKeyValues=ecs-tasks.amazonaws.com
+
+
+
+aws iam put-role-policy \
+  --role-name github-repo-1341192133 \
+  --policy-name EcsDeploymentPolicy \
+  --policy-document file://ecs-deploy-policy.json
+
+aws iam get-role-policy \
+  --role-name github-repo-1341192133 \
+  --policy-name EcsDeploymentPolicy  

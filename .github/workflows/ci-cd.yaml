@@ -4,12 +4,46 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
-  pipeline:
-    uses: kumabes-org/ci-cd-workflows/.github/workflows/entrypoint-python.yaml@v1
+  quality-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: "${{ github.workspace }}/app"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Run Lint & Tests
+        run: |
+          find . -type f -name requirements.txt -exec pip install -r {} \;
+          pip install ruff pytest
+          ruff check .
+          pytest
+
+  publish-ecr:
+    needs: quality-check
+    uses: kumabes-org/ci-cd-workflows/.github/workflows/engine-build-push-ecr.yaml@v1
     with:
-      target-platform: "ecs" # Alterne para 'lambda' ou 'glue' conforme o projeto
-      app-name: "python-ecs"
-      environment: "prod"
+      ecr-repository: "python-ecs"
+      image-tag: ${{ github.sha }}
+      aws-region: "us-east-1"
+    secrets: inherit
+
+  deploy-ecs:
+    needs: publish-ecr
+    uses: kumabes-org/ci-cd-workflows/.github/workflows/engine-deploy-ecs.yaml@v1
+    with:
       cluster-name: "ecs-app-cluster"
+      service-name: "python-ecs-prod-svc"
+      task-definition-family: "python-ecs-prod-tsk-v2"
+      container-name: "python-ecs-prod-ctr"
+      image-uri: ${{ needs.publish-ecr.outputs.image-uri }}
+      task-role-arn: ${{ secrets.ROLE_TO_ASSUME }}
     secrets: inherit
